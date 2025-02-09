@@ -1,0 +1,62 @@
+plugins {
+    // 자바 관련 플러그인
+    id 'java'
+
+    // 스프링 부트 플러그인
+    id 'org.springframework.boot' version '3.2.9'
+
+    // 스프링 의존성 관리를 위한 플러그인
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Spring Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // Spring Security OAuth2 Client (구글 로그인, 카카오 로그인)
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+    // JPA와 DB 연결을 위한 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'org.postgresql:postgresql'
+
+    // JWT 사용을 위한 라이브러리 (io.jsonwebtoken)
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // 테스트
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    
+    // Lombok 추가
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+
+    // 테스트 시에도 Lombok 사용 가능하도록
+    testCompileOnly 'org.projectlombok:lombok:1.18.36'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.36'
+    
+    // ✅ Thymeleaf 추가 (일반 로그인 테스트 용도)
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'  // ✅ UTF-8 인코딩 설정 (기존 코드)
+    options.compilerArgs << "-parameters"  // ✅ 파라미터 이름 유지 설정 추가 [적용이 잘 되지 않음]
+}
